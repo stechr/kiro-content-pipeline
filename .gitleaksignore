@@ -1,0 +1,4 @@
+# gitleaks false positives — each line is a finding fingerprint (commit:file:rule:line).
+# Prose in the fact-check skill (a list of claim categories needing extra scrutiny)
+# matched the generic-api-key rule; it is documentation text, not a credential.
+8180d04192df454f1fad65b5dd34c03235478f4e:.kiro/skills/fact-check/SKILL.md:generic-api-key:57

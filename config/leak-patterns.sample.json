@@ -1,0 +1,10 @@
+{
+  "_comment": "SAMPLE org-specific leak patterns for leak_scan.py. Copy to config/leak-patterns.local.json (gitignored) and replace the examples below with YOUR organization's internal markers. leak_scan.py ALWAYS applies its built-in generic patterns (personal paths, home paths, 12-digit cloud account IDs) regardless of this file; these org patterns are ADDED on top. Each entry: label (short id), regex (Python re, matched case-insensitively), note (why it's flagged). Anything matched BLOCKS publish.",
+  "patterns": [
+    { "label": "internal-email",    "regex": "@corp\\.example\\.com\\b",              "note": "internal company email domain" },
+    { "label": "internal-wiki",     "regex": "\\bwiki\\.internal\\.example\\.com\\b", "note": "internal wiki link" },
+    { "label": "internal-chat",     "regex": "\\byourworkspace\\.slack\\.com/archives", "note": "internal chat permalink" },
+    { "label": "internal-tool",     "regex": "\\byour-internal-tool-name\\b",         "note": "internal tool/codename reference" },
+    { "label": "internal-host",     "regex": "\\b[\\w.-]+\\.internal\\.example\\.com\\b", "note": "internal hostname" }
+  ]
+}
