@@ -1,0 +1,22 @@
+# Local, user-specific config (never committed — copy the .sample.json and edit)
+config/*.local.json
+
+# Local working doc — references the private production system; never publish
+docs/BACKFILL-REGISTER.md
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Environment / secrets
+.env
+*.local
+
+# OS
+.DS_Store
+
+# Generated example output (drafts produced by running the pipeline on examples/)
+examples/vault/drafts/*/
+!examples/vault/drafts/.gitkeep

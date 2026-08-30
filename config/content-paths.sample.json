@@ -1,0 +1,16 @@
+{
+  "_comment": "SAMPLE path-config for kiro-content-pipeline. Copy to config/content-paths.local.json (gitignored) and edit for your setup. Skills resolve content locations THROUGH the local copy (via scripts/content_paths.py) instead of hardcoding them. Tokens ${HOME}, ${workspace_root}, ${content_root} are expanded by the resolver. Defaults below point at the bundled examples/ tree so a fresh clone runs end-to-end with no editing.",
+
+  "_comment_workspace": "workspace_root is the root of YOUR content workspace (e.g. an Obsidian vault, or any folder tree). content_root is where per-item draft folders are written. The defaults below use ${REPO}/examples/vault so a FRESH CLONE runs end-to-end with zero edits — repoint them at your real workspace (e.g. ${HOME}/path/to/your/vault) once you're past the examples.",
+  "workspace_root": "${REPO}/examples/vault",
+  "content_root": "${workspace_root}/drafts",
+
+  "_comment_item_layout": "Each content item lives in content_root/<date>-<slug>/ with the item root holding shared artifacts (ideation.md, faq.md, challenging-questions.md, assets/) and channel subfolders for channel-specific files. content-item.md is the cross-channel manifest.",
+  "item_subfolders": {
+    "blog": "blog",
+    "linkedin": "linkedin"
+  },
+  "item_files": {
+    "manifest": "content-item.md"
+  }
+}

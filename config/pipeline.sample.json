@@ -1,0 +1,19 @@
+{
+  "_comment": "SAMPLE pipeline-config for kiro-content-pipeline (non-path, user-specific values). Copy to config/pipeline.local.json (gitignored) and edit. Resolved via scripts/content_paths.py alongside content-paths. Defaults point at the bundled examples/ so a fresh clone runs. Anything left empty/absent makes the corresponding step OPTIONAL (it is skipped, not an error).",
+
+  "_comment_style_corpus": "style_corpus_dir: a folder of YOUR prior published posts. post-creation Step 5 reads 3+ of these to match your voice/formatting. Defaults to the bundled synthesized example posts (${REPO}/examples/vault/style-corpus) so a fresh clone runs — replace with your real corpus for authentic voice matching.",
+  "style_corpus_dir": "${REPO}/examples/vault/style-corpus",
+
+  "_comment_prior_work": "prior_work_dir + site_public_base_url: OPTIONAL. Used by post-creation Step 3 to reference your own earlier work. Leave site_public_base_url empty to skip the website search; leave prior_work_dir empty to skip the local search.",
+  "prior_work_dir": "",
+  "site_public_base_url": "",
+
+  "_comment_aliases": "user_aliases: your internal login/alias(es). Passed to leak_scan.py so the pre-publish leak gate flags any accidental internal-alias leak in a draft. Safe to leave [] if you have none.",
+  "user_aliases": [],
+
+  "_comment_guidelines": "image_guidelines_path: a markdown file of YOUR image-prompt guidelines (what imagery works for your audience). post-creation Step 12 reads it before proposing image prompts. Defaults to the bundled generic example (${REPO}/examples/vault/guidelines/image-guidelines.md); replace with your own performance-derived guidance.",
+  "image_guidelines_path": "${REPO}/examples/vault/guidelines/image-guidelines.md",
+
+  "_comment_voice_profile": "voice_profile_path: YOUR standing voice profile for the humanize-pipeline stage-2 rewrite (public writing corpus + extracted voice traits). Defaults to the bundled template, pre-filled for the fictional example author — fill it in before real use (see .kiro/skills/humanize-pipeline/voice/VOICE.md).",
+  "voice_profile_path": "${REPO}/.kiro/skills/humanize-pipeline/voice/VOICE.md"
+}

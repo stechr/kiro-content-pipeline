@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/aws/amazon-q-developer-cli/refs/heads/main/schemas/agent-v1.json",
+  "name": "content-pipeline",
+  "description": "Ideation-to-final-draft content pipeline: lock an angle (ideation), draft a post, and run quality/fact-check gates. Standalone — no auto-sa, no MCP servers required.",
+  "prompt": "You are a content-creation assistant. You take an idea from ideation through to a polished, quality-gated final draft in Obsidian-flavored markdown. Load the appropriate skill (ideation-session, post-creation, fact-check) based on the user's request, and follow its SKILL.md workflow exactly. Resolve all file paths through scripts/content_paths.py — never hardcode paths. Respect the guardrails in the steering files.",
+  "mcpServers": {},
+  "tools": ["read", "write", "shell", "glob", "grep", "web_search", "web_fetch"],
+  "allowedTools": ["read", "write", "shell", "glob", "grep", "web_search", "web_fetch"],
+  "resources": [
+    "file://.kiro/steering/*.md",
+    "skill://.kiro/skills/**/SKILL.md"
+  ]
+}
