@@ -194,6 +194,24 @@ COPULA_RE = re.compile(
     r"\b(serves as|stands as|acts as|functions as|positions itself as|"
     r"represents (?:a|an|the)\b|boasts\b|showcases\b)", re.I)
 
+# 3b) SIGNAL — summary-frame / distancing constructions.
+# "The argument was that X" states X at arm's length instead of just stating X. It is the
+# written equivalent of introducing yourself in the third person, and it shows up constantly
+# in LLM prose when summarizing a prior point, a source, or the writer's own earlier work.
+# The fix is nearly always to delete the frame and assert the claim directly:
+#     "The argument was that the clip matters."  ->  "The clip matters."
+#     "What I found was that it crackled."       ->  "It crackled."
+# Deliberately NOT matched: "the argument that X is wrong" (referring to an argument as an
+# object is fine), and question forms ("what the argument was" in reported speech).
+SUMMARY_FRAME_RE = re.compile(
+    r"\b(?:"
+    r"the\s+(?:argument|point|idea|thesis|premise|takeaway|lesson|insight|claim|upshot|"
+    r"conclusion|reasoning|observation|finding|realization|realisation)\s+"
+    r"(?:was|is|here\s+was|here\s+is|being)\s+(?:that|this)\b"
+    r"|what\s+(?:I|we)\s+(?:found|learned|discovered|realized|realised)\s+was\s+that\b"
+    r"|the\s+(?:key|main|whole)\s+(?:point|idea|insight)\s+(?:was|is)\s+that\b"
+    r")", re.I)
+
 # 5) SIGNAL — "Challenges / Future" outline conclusions
 CHALLENGES_HEADING_RE = re.compile(
     r"^#{1,6}\s+.*\b("
@@ -271,6 +289,15 @@ def detect_copula_avoidance(prose: str, raw: str, out: list[Finding]) -> None:
         out.append(Finding(SIGNAL, "copula-avoidance", line_of(m.start(), raw),
                            _ctx(raw, m.start(), m.end()),
                            "prefer a plain 'is/are/has' where it reads better"))
+
+
+def detect_summary_frame(prose: str, raw: str, out: list[Finding]) -> None:
+    """Flag 'The argument was that X' style frames — state X directly instead."""
+    for m in SUMMARY_FRAME_RE.finditer(prose):
+        out.append(Finding(SIGNAL, "summary-frame", line_of(m.start(), raw),
+                           _ctx(raw, m.start(), m.end()),
+                           "drop the frame and assert the claim directly "
+                           "('The argument was that the clip matters' -> 'The clip matters')"))
 
 
 def detect_challenges_conclusion(prose: str, raw: str, out: list[Finding]) -> None:
@@ -439,6 +466,7 @@ def scan_text(raw: str, comment_mode: bool = False) -> FileReport:
     # SIGNAL
     detect_negative_parallelisms(prose, raw, findings)
     detect_copula_avoidance(prose, raw, findings)
+    detect_summary_frame(prose, raw, findings)
     detect_challenges_conclusion(prose, raw, findings)
     detect_bold_headers(full_nocode, raw, findings)
     words = compute_rhythm(prose, stats)
