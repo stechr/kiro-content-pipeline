@@ -177,5 +177,48 @@ class CommentMode(unittest.TestCase):
         self.assertNotIn("title-case-heading", cats(rep, mod.STYLE))
 
 
+
+class SummaryFrame(unittest.TestCase):
+    """'The argument was that X' states X at arm's length instead of asserting it."""
+
+    def test_the_argument_was_that(self):
+        rep = mod.scan_text("The argument was that the clip matters more than the model.")
+        self.assertIn("summary-frame", cats(rep, mod.SIGNAL))
+
+    def test_the_point_is_that(self):
+        rep = mod.scan_text("The point is that nobody measures the input.")
+        self.assertIn("summary-frame", cats(rep, mod.SIGNAL))
+
+    def test_what_i_found_was_that(self):
+        rep = mod.scan_text("What I found was that the gate could not see it.")
+        self.assertIn("summary-frame", cats(rep, mod.SIGNAL))
+
+    def test_the_key_insight_was_that(self):
+        rep = mod.scan_text("The key insight was that a label without a gate is useless.")
+        self.assertIn("summary-frame", cats(rep, mod.SIGNAL))
+
+    def test_takeaway_was_this(self):
+        rep = mod.scan_text("The takeaway was this: measure your metric first.")
+        self.assertIn("summary-frame", cats(rep, mod.SIGNAL))
+
+    # --- guards: referring to an argument as an object is legitimate prose ---
+
+    def test_argument_that_x_is_wrong_not_flagged(self):
+        rep = mod.scan_text("The argument that codec frames are few-shot examples is wrong.")
+        self.assertNotIn("summary-frame", cats(rep, mod.SIGNAL))
+
+    def test_reported_speech_not_flagged(self):
+        rep = mod.scan_text("I could not tell what the argument was.")
+        self.assertNotIn("summary-frame", cats(rep, mod.SIGNAL))
+
+    def test_the_point_of_not_flagged(self):
+        rep = mod.scan_text("The point of the exercise is measurement.")
+        self.assertNotIn("summary-frame", cats(rep, mod.SIGNAL))
+
+    def test_possessive_thesis_not_flagged(self):
+        rep = mod.scan_text("Their thesis is well known and widely cited.")
+        self.assertNotIn("summary-frame", cats(rep, mod.SIGNAL))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
